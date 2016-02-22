@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  datetime: 2016-02-22 20:34:43
+  event_type_id: 
+  conference_id: 
+
+two:
+  datetime: 2016-02-22 20:34:43
+  event_type_id: 
+  conference_id: 
