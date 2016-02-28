@@ -1,14 +1,66 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Chimes</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <title>chimes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/simplex/bootstrap.min.css', media: 'all' %>
+    <%= csrf_meta_tags %>
+    <% if content_for? :head %>
+      <%= yield :head %>
+    <% end %>
+  </head>
+  <body>
 
-<%= yield %>
+    <div style="font-size: 16px; width: 800px" class="container">
 
-</body>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <%= link_to raw('<strong>chimes</strong>'), root_path, class: 'navbar-brand' %>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <% if !current_user.nil? %>
+            <ul class="nav navbar-nav">
+              <li><%=link_to raw('My Conferences <span class="sr-only">(current)</span>'), conferences_path %></li>
+            </ul>
+            <% end %>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <% if current_user.nil? %>
+                <%= link_to 'Sign In', '/auth/google' %>
+                <% else %>
+                <%= link_to 'Sign Out', signout_path, method: :delete %>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container" style="width: 100%">
+        <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %>">
+            <%= value %>
+          </div>
+        <% end %>
+
+        <%= yield %>
+
+      </div>
+
+      <div class="footer" style="font-size: 10pt; text-align: center">
+        <strong>chimes</strong>
+      </div>
+
+    </div>
+
+  </body>
 </html>

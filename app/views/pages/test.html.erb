@@ -1,0 +1,17 @@
+<% content_for :head do -%>
+  <script type="text/javascript">
+    var f = function() { document.getElementById("chime").play(); }
+    $(document).ready(function(){
+      while(true) {
+        setTimeout(f, 5000);
+      }
+    }
+  </script>
+<% end -%>
+
+<audio id="chime" preload>
+	<source src="<%= asset_path('japanese-temple-bell.mp3') %>" type="audio/mpeg" />
+</audio>
+
+<h1>Demo</h1>
+<p>If this is working, you should hear a chime every five seconds!</p>
