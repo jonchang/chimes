@@ -2,7 +2,7 @@ class CreateConferences < ActiveRecord::Migration
   def change
     create_table :conferences do |t|
       t.string :name
-      t.string :time_zone
+      t.string :time_zone, default: 'UTC'
       t.binary :start_chime
       t.binary :warning_chime
       t.binary :passing_chime

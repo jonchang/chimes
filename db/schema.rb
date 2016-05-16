@@ -18,13 +18,13 @@ ActiveRecord::Schema.define(version: 20160222073443) do
 
   create_table "conferences", force: :cascade do |t|
     t.string   "name"
-    t.string   "time_zone"
+    t.string   "time_zone",     default: "UTC"
     t.binary   "start_chime"
     t.binary   "warning_chime"
     t.binary   "passing_chime"
     t.integer  "user_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "conferences", ["user_id"], name: "index_conferences_on_user_id", using: :btree
