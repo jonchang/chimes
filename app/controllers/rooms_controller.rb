@@ -47,7 +47,7 @@ class RoomsController < ApplicationController
     rescue Exception => e
       flash[:danger] = e.message
     end
-    redirect_to @room.conference
+    redirect_to @room
   end
 
   private
@@ -57,7 +57,7 @@ class RoomsController < ApplicationController
   end
 
   def update_params
-    params.require(:conference).permit(:time_zone)
+    params.require(:room).permit(:name)
   end
 
 end

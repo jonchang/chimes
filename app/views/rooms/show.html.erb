@@ -1,0 +1,17 @@
+<% content_for :head do %>
+  <%= javascript_include_tag 'http://cdn.alloyui.com/3.0.1/aui/aui-min.js' %>
+<% end %>
+
+<h1>Manage <%= @room.name %></h1>
+
+<div class="well">
+	<legend>Rename</legend>
+	<%= form_for @room, validate: true do |f| %>
+		<%= f.text_field :name, style: 'text-align: left; width: 75%' %>
+		<%= f.submit 'Update', class: 'btn btn-primary', style: 'float: right' %>
+	<% end %>
+</div>
+
+<div id="wrapper">
+  <div id="myScheduler"></div>
+</div>
