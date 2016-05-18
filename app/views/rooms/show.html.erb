@@ -1,5 +1,7 @@
 <% content_for :head do %>
-  <%= javascript_include_tag 'http://cdn.alloyui.com/3.0.1/aui/aui-min.js' %>
+  <%= javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js' %>
+	<%= javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.1/fullcalendar.min.js' %>
+	<%= stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.1/fullcalendar.min.css' %>
 <% end %>
 
 <h1>Manage <%= @room.name %></h1>
@@ -12,6 +14,22 @@
 	<% end %>
 </div>
 
+<table>
+	<tr>
+	  <td style="width: 20%">
+			<table>
+				<%= @conference.event_types.each do |e| %>
+
+				<% end %>
+			<table>
+		</td>
+	  <td style="width: 80%">
+		  <div id="scheduler"></div>
+	  </td>
+	</tr>
+</table>
+
+
 <div id="wrapper">
-  <div id="myScheduler"></div>
+  <div id="scheduler"></div>
 </div>
