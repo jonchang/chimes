@@ -19,6 +19,11 @@ class RoomsController < ApplicationController
     end
   end
 
+  def add_event_type
+
+    redirect_to @show
+  end
+
   def show
     begin
       @room = Room.find(params[:id])
