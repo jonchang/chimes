@@ -20,8 +20,9 @@ class RoomsController < ApplicationController
   end
 
   def add_event_type
-
-    redirect_to @show
+    @room = Room.find(params[:id])
+    room.conference.event_types.create!({name: event_type_params[:name], length: event_type_params[:length], warning_time: event_type_params[:warning_time] if event_type_params[:warning_time_used], warning_time: event_type_params[:passing_time] if event_type_params[:passing_time_used]})
+    redirect_to @room
   end
 
   def show
@@ -63,6 +64,10 @@ class RoomsController < ApplicationController
 
   def update_params
     params.require(:room).permit(:name)
+  end
+
+  def event_type_params
+    params.require(:room).permit(:name, :length, :warning_time_used, :warning_time, :passing_time_used, :passing_time)
   end
 
 end

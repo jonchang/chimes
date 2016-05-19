@@ -15,6 +15,12 @@ ready = ->
       allDaySlot: false,
       eventOverlap: false
     })
+    $('#warning_time_used').change((e) ->
+      $('#warning_time').prop('disabled', !$('#warning_time_used').is(':checked'))
+    )
+    $('#passing_time_used').change((e) ->
+      $('#passing_time').prop('disabled', !$('#passing_time_used').is(':checked'))
+    )
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
