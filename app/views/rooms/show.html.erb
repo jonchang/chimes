@@ -4,6 +4,8 @@
 	<%= stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.1/fullcalendar.min.css' %>
 <% end %>
 
+<%= link_to 'Back to Conference Manager', @room.conference%>
+
 <h1>Manage <%= @room.name %></h1>
 
 <div class="well">
@@ -36,12 +38,10 @@
 		</td>
 		<td style="width: 5%"/>
 	  <td style="width: 75%">
-		  <div id="scheduler"></div>
+		  <div id="scheduler">
+				<br/>
+		  	If calendar does not appear, try reloading!
+		  </div>
 	  </td>
 	</tr>
 </table>
-
-
-<div id="wrapper">
-  <div id="scheduler"></div>
-</div>

@@ -1,4 +1,9 @@
 class Event < ActiveRecord::Base
-  belongs_to :event_type
+  has_one :event_type
   belongs_to :room
+
+  amoeba do
+    enable
+  end
+
 end

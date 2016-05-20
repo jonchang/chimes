@@ -44,13 +44,13 @@ ActiveRecord::Schema.define(version: 20160222073443) do
   create_table "events", force: :cascade do |t|
     t.datetime "datetime"
     t.integer  "event_type_id"
-    t.integer  "conference_id"
+    t.integer  "room_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
 
-  add_index "events", ["conference_id"], name: "index_events_on_conference_id", using: :btree
   add_index "events", ["event_type_id"], name: "index_events_on_event_type_id", using: :btree
+  add_index "events", ["room_id"], name: "index_events_on_room_id", using: :btree
 
   create_table "rooms", force: :cascade do |t|
     t.string   "name"
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 20160222073443) do
 
   add_foreign_key "conferences", "users"
   add_foreign_key "event_types", "conferences"
-  add_foreign_key "events", "conferences"
   add_foreign_key "events", "event_types"
+  add_foreign_key "events", "rooms"
   add_foreign_key "rooms", "conferences"
 end

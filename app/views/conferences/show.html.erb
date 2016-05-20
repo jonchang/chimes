@@ -23,8 +23,8 @@
       <tr>
         <td style="width: 55%"><%= room.name %></td>
         <td style="width: 15%; text-align: right"><%= link_to 'Manage', room %></td>
-        <td style="width: 15%; text-align: right"><%= link_to 'Clone', room %></td>
-        <td style="width: 15%; text-align: right"><%= link_to 'Delete', room %></td>
+        <td style="width: 15%; text-align: right"><%= link_to 'Clone', clone_room_path(room) %></td>
+        <td style="width: 15%; text-align: right"><%= link_to 'Delete', room, :method => :delete %></td>
       </tr>
     <% end %>
   </table>

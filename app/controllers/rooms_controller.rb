@@ -20,9 +20,14 @@ class RoomsController < ApplicationController
   end
 
   def add_event_type
-    @room = Room.find(params[:id])
-    room.conference.event_types.create!({name: event_type_params[:name], length: event_type_params[:length], warning_time: event_type_params[:warning_time] if event_type_params[:warning_time_used], warning_time: event_type_params[:passing_time] if event_type_params[:passing_time_used]})
-    redirect_to @room
+    begin
+      @room = Room.find(params[:id])
+      room.conference.event_types.create!({name: event_type_params[:name], length: event_type_params[:length], warning_time: (event_type_params[:warning_time] if event_type_params[:warning_time_used]), warning_time: (event_type_params[:passing_time] if event_type_params[:passing_time_used])})
+      flash[:info] = 'Created new event type.'
+      redirect_to @room
+    rescue Exception => e
+      flash[:danger] = e.message
+    end
   end
 
   def show
@@ -54,6 +59,28 @@ class RoomsController < ApplicationController
       flash[:danger] = e.message
     end
     redirect_to @room
+  end
+
+  def clone
+    begin
+      @room = Room.find(params[:id])
+      @room.amoeba_dup.save
+      flash[:info] = "Cloned room \"#{@room.name}\"."
+    rescue Exception => e
+      flash[:danger] = e.message
+    end
+    redirect_to @room.conference
+  end
+
+  def destroy
+    begin
+      @room = Room.find(params[:id])
+      Room.destroy(params[:id])
+      flash[:info] = "Delete room \"#{@room.name}\"."
+    rescue Exception => e
+      flash[:danger] = e.message
+    end
+    redirect_to @room.conference
   end
 
   private

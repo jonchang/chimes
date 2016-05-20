@@ -3,7 +3,7 @@ class CreateEvents < ActiveRecord::Migration
     create_table :events do |t|
       t.datetime :datetime
       t.references :event_type, index: true, foreign_key: true
-      t.references :conference, index: true, foreign_key: true
+      t.references :room, index: true, foreign_key: true
 
       t.timestamps null: false
     end

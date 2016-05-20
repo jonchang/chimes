@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :conferences
   resources :rooms do
     member do
+      get :clone
       post :add_event_type
     end
   end
