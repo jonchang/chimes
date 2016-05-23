@@ -1,6 +1,9 @@
 class EventType < ActiveRecord::Base
   belongs_to :conference
 
+  validates :name, presence: true
+  validates :length, presence: true
+
   def warning_time_used
     !self.warning_time.nil?
   end

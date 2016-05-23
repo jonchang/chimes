@@ -1,6 +1,8 @@
 <% content_for :head do %>
+  <%= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js' %>
   <%= javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js' %>
 	<%= javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.1/fullcalendar.min.js' %>
+	<%= stylesheet_link_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css' %>
 	<%= stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.1/fullcalendar.min.css' %>
 <% end %>
 
@@ -20,12 +22,21 @@
 	<tr>
 	  <td style="width: 20%; vertical-align: top">
 			<legend>Event Types</legend>
-			<% @room.conference.event_types.each do |e| %>
-
+			<% @room.conference.event_types.each do |et| %>
+        <div id="et[<%= et.id %>]" data-duration="<%= Time.at(et.length * 60).utc.strftime("%H:%M:%S") %>" class="ui-widget-content ui-draggable ui-draggable-handle" style="border: 1px solid; border-radius: 5px; background-color: rgb(255,255,255); z-index: 100">
+          <b><%= et.name %></b><br/>
+          <%= et.length %> minutes
+          <% if et.warning_time_used %>
+            <br/>warning at <%= et.warning_time %> min.
+          <% end %>
+          <% if et.passing_time_used %>
+            <br/>warning at <%= et.passing_time %> min.
+          <% end %>
+        </div>
 			<% end %>
 			<div class="well" style="overflow: hidden">
         <legend>New</legend>
-				<%= form_for @room.conference.event_types.create!, url: add_event_type_room_path(@room), validate: true do |f| %>
+				<%= form_for @room.conference.event_types.new, url: add_event_type_room_path(@room), validate: true do |f| %>
 					<%= f.text_field :name, placeholder: ' name', style: 'text-align: left; width: 75%' %><br/>
 					<%= f.text_field :length, placeholder: ' length', style: 'text-align: left; width: 75%' %><br/>
 					<%= f.text_field :warning_time, placeholder: ' warning bell', style: 'text-align: left; width: 75%', id: 'warning_time', disabled: true %>
@@ -40,7 +51,7 @@
 	  <td style="width: 75%">
 		  <div id="scheduler">
 				<br/>
-		  	If calendar does not appear, try reloading!
+		  	<center>If scheduler does not appear, try reloading!</center>
 		  </div>
 	  </td>
 	</tr>

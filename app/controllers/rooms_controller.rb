@@ -20,14 +20,14 @@ class RoomsController < ApplicationController
   end
 
   def add_event_type
+    @room = Room.find(params[:id])
     begin
-      @room = Room.find(params[:id])
-      room.conference.event_types.create!({name: event_type_params[:name], length: event_type_params[:length], warning_time: (event_type_params[:warning_time] if event_type_params[:warning_time_used]), warning_time: (event_type_params[:passing_time] if event_type_params[:passing_time_used])})
+      @room.conference.event_types.create!(event_type_params.except(:warning_time_used, :passing_time_used))
       flash[:info] = 'Created new event type.'
-      redirect_to @room
     rescue Exception => e
-      flash[:danger] = e.message
+      flash[:danger] = event_type_params.except(:warning_time_used, :passing_time_used).to_s
     end
+    redirect_to @room
   end
 
   def show
@@ -94,7 +94,8 @@ class RoomsController < ApplicationController
   end
 
   def event_type_params
-    params.require(:room).permit(:name, :length, :warning_time_used, :warning_time, :passing_time_used, :passing_time)
+    params.require(:event_type).permit(:name, :length, :warning_time, :passing_time, :warning_time_used, :passing_time_used)
   end
+
 
 end
