@@ -13,7 +13,9 @@ Rails.application.routes.draw do
       get :clone
       get :events_json
       post :add_event_type
+      post :add_event
     end
   end
+  resources :events
 
 end

@@ -20,8 +20,7 @@ ready = ->
       eventStartEditable: true
       droppable: true
       drop: (date, jsEvent, ui, resourceId) ->
-        alert 'Dropped on ' + date.format()
-        $.post('add_event', {}, () -> $('#scheduler').fullCalendar('render'))
+        $.post($(location).attr('href') + '/add_event', {}, () -> $('#scheduler').fullCalendar('render'))
         return
       eventDrop: (event, delta, revertFunc, jsEvent, ui, view) ->
         return
