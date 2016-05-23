@@ -30,6 +30,18 @@ class RoomsController < ApplicationController
     redirect_to @room
   end
 
+  def add_event
+    @room = Room.find(params[:id])
+    begin
+      @room.conference.events.create!(event_type_params.except(:warning_time_used, :passing_time_used))
+      flash[:info] = 'Created new event type.'
+    rescue Exception => e
+      flash[:danger] = event_type_params.except(:warning_time_used, :passing_time_used).to_s
+    end
+    redirect_to @room
+  end
+
+
   def show
     begin
       @room = Room.find(params[:id])
@@ -39,6 +51,18 @@ class RoomsController < ApplicationController
     if @room.conference.user != current_user
       redirect_to conferences_path
     end
+  end
+
+  def events_json
+    begin
+      @room = Room.find(params[:id])
+    rescue
+      render status: 403
+    end
+    if @room.conference.user != current_user
+      render status: 403
+    end
+    render json: @room.events.map { |e| e.json_data }
   end
 
   def update
@@ -91,6 +115,10 @@ class RoomsController < ApplicationController
 
   def update_params
     params.require(:room).permit(:name)
+  end
+
+  def event_params
+    params.require(:event).permit(:datetime, :event_type)
   end
 
   def event_type_params

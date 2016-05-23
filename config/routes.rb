@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :rooms do
     member do
       get :clone
+      get :events_json
       post :add_event_type
     end
   end

@@ -14,10 +14,16 @@ ready = ->
         }
       allDaySlot: false
       snapDuration: 1
+      events: 'events_json'
+      lazyFetching: false
       eventOverlap: false
+      eventStartEditable: true
       droppable: true
       drop: (date, jsEvent, ui, resourceId) ->
         alert 'Dropped on ' + date.format()
+        $.post('add_event', {}, () -> $('#scheduler').fullCalendar('render'))
+        return
+      eventDrop: (event, delta, revertFunc, jsEvent, ui, view) ->
         return
     })
     $('#warning_time_used').change((e) ->
