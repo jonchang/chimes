@@ -6,12 +6,12 @@ ready = ->
   $ ->
     $('#scheduler').fullCalendar({
       defaultView: 'agendaWeek'
-      height: window.innerHeight * 0.8
+      height: window.innerHeight * 0.9
       header:
         {
-            left:   '',
-            center: '',
-            right:  'today prev,next'
+          left:   '',
+          center: '',
+          right:  'today prev,next'
         }
       allDaySlot: false
       snapDuration: 1
@@ -28,6 +28,10 @@ ready = ->
         $.post('/events/' + event.id, {'_method': 'PATCH', 'event[datetime]': event.start.toISOString()}, () -> $('#scheduler').fullCalendar('refetchEvents'))
         return
       eventRender: (event, element) ->
+        element.prepend('<span event-id="' + event.id + '" class="removeEvent glyphicon glyphicon-trash pull-right"></span>')
+        return
+      eventClick: (event, jsEvent, view) ->
+        $.post('/events/' + event.id, {'_method': 'DELETE'}, () -> $('#scheduler').fullCalendar('refetchEvents'))
         return
     })
     $('#warning_time_used').change((e) ->
@@ -41,11 +45,6 @@ ready = ->
         revertDuration: 0
     })
     $("div[id^='et']").droppable()
-    $('#trash').droppable({
-      drop: (event, ui) ->
-        $.post('/events/' + event.id, {'_method': 'DELETE'}, () -> $('#scheduler').fullCalendar('refetchEvents'))
-        return
-    })
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

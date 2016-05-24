@@ -4,6 +4,11 @@ class EventsController < ApplicationController
     render json: Event.find(params[:id]).update!(update_params)
   end
 
+  def destroy
+    Event.delete(params[:id])
+    render status: 200, json: {}
+  end
+
   private
 
   def update_params
