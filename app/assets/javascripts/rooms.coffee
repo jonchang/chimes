@@ -22,7 +22,11 @@ ready = ->
       eventStartEditable: true
       droppable: true
       drop: (date, jsEvent, ui, resourceId) ->
-        $.post($(location).attr('href') + '/add_event', {'event[event_type_id]': $(this).attr('event-type'), 'event[datetime]': date.toISOString()}, () -> $('#scheduler').fullCalendar('refetchEvents'))
+        $.post($(location).attr('href') + '/add_event', {'event[event_type_id]': $(this).attr('event-type'), 'event[datetime]': date.toISOString()},
+          (data) ->
+            $('#scheduler').fullCalendar('addEventSource', [data])
+            return
+        )
         return
       eventDrop: (event, delta, revertFunc, jsEvent, ui, view) ->
         $.post('/events/' + event.id, {'_method': 'PATCH', 'event[datetime]': event.start.toISOString()},
@@ -37,7 +41,11 @@ ready = ->
         element.prepend('<span event-id="' + event.id + '" class="removeEvent glyphicon glyphicon-trash pull-right"></span>')
         return
       eventClick: (event, jsEvent, view) ->
-        $.post('/events/' + event.id, {'_method': 'DELETE'}, () -> $('#scheduler').fullCalendar('refetchEvents'))
+        $.post('/events/' + event.id, {'_method': 'DELETE'},
+          (data) ->
+            $('#scheduler').fullCalendar('removeEvents', data['id'])
+            return
+        )
         return
     })
     $('#warning_time_used').change((e) ->
