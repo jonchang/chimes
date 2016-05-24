@@ -25,7 +25,13 @@ ready = ->
         $.post($(location).attr('href') + '/add_event', {'event[event_type_id]': $(this).attr('event-type'), 'event[datetime]': date.toISOString()}, () -> $('#scheduler').fullCalendar('refetchEvents'))
         return
       eventDrop: (event, delta, revertFunc, jsEvent, ui, view) ->
-        $.post('/events/' + event.id, {'_method': 'PATCH', 'event[datetime]': event.start.toISOString()}, () -> $('#scheduler').fullCalendar('refetchEvents'))
+        $.post('/events/' + event.id, {'_method': 'PATCH', 'event[datetime]': event.start.toISOString()},
+          (data) ->
+            event.prop('start', data.start)
+            event.prop('end', data.end)
+            $('#scheduler').fullCalendar('updateEvent', event)
+            return
+        )
         return
       eventRender: (event, element) ->
         element.prepend('<span event-id="' + event.id + '" class="removeEvent glyphicon glyphicon-trash pull-right"></span>')
