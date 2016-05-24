@@ -1,6 +1,8 @@
 class Event < ActiveRecord::Base
-  has_one :event_type
+  belongs_to :event_type
   belongs_to :room
+
+  before_save :round_datetime
 
   amoeba do
     enable
@@ -8,13 +10,17 @@ class Event < ActiveRecord::Base
 
   def json_data
     {
-      id: "event[#{id}]",
+      id: id,
       title: event_type.name,
       allDay: false,
       start: datetime.iso8601,
-      end: datetime.advance(minutes: length).iso8601,
-      color: 'aliceblue'
+      end: datetime.advance(minutes: event_type.length).iso8601,
+      color: event_type.color
     }
+  end
+
+  def round_datetime
+    self.datetime = datetime&.beginning_of_minute
   end
 
 end

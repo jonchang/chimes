@@ -6,6 +6,7 @@ ready = ->
   $ ->
     $('#scheduler').fullCalendar({
       defaultView: 'agendaWeek'
+      height: window.innerHeight * 0.8
       header:
         {
             left:   '',
@@ -14,15 +15,19 @@ ready = ->
         }
       allDaySlot: false
       snapDuration: 1
-      events: 'events_json'
+      events: $(location).attr('href') + '/events_json'
       lazyFetching: false
       eventOverlap: false
+      selectOverlap: false
       eventStartEditable: true
       droppable: true
       drop: (date, jsEvent, ui, resourceId) ->
-        $.post($(location).attr('href') + '/add_event', {}, () -> $('#scheduler').fullCalendar('render'))
+        $.post($(location).attr('href') + '/add_event', {'event[event_type_id]': $(this).attr('event-type'), 'event[datetime]': date.toISOString()}, () -> $('#scheduler').fullCalendar('refetchEvents'))
         return
       eventDrop: (event, delta, revertFunc, jsEvent, ui, view) ->
+        $.post('/events/' + event.id, {'_method': 'PATCH', 'event[datetime]': event.start.toISOString()}, () -> $('#scheduler').fullCalendar('refetchEvents'))
+        return
+      eventRender: (event, element) ->
         return
     })
     $('#warning_time_used').change((e) ->
@@ -36,6 +41,11 @@ ready = ->
         revertDuration: 0
     })
     $("div[id^='et']").droppable()
+    $('#trash').droppable({
+      drop: (event, ui) ->
+        $.post('/events/' + event.id, {'_method': 'DELETE'}, () -> $('#scheduler').fullCalendar('refetchEvents'))
+        return
+    })
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

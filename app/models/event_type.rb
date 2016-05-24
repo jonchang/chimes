@@ -12,4 +12,8 @@ class EventType < ActiveRecord::Base
     !self.passing_time.nil?
   end
 
+  def color
+    ['darkblue', 'darkcyan', 'darkgoldenrod', 'darkgrey', 'darkgreen', 'darkmagenta', 'darkred', 'darkslateblue', 'darkslategrey'][id]
+  end
+
 end

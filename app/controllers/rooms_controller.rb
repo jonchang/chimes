@@ -25,22 +25,14 @@ class RoomsController < ApplicationController
       @room.conference.event_types.create!(event_type_params.except(:warning_time_used, :passing_time_used))
       flash[:info] = 'Created new event type.'
     rescue Exception => e
-      flash[:danger] = event_type_params.except(:warning_time_used, :passing_time_used).to_s
+      flash[:danger] = e.message
     end
     redirect_to @room
   end
 
   def add_event
-    @room = Room.find(params[:id])
-    begin
-      @room.conference.events.create!(event_type_params.except(:warning_time_used, :passing_time_used))
-      flash[:info] = 'Created new event type.'
-    rescue Exception => e
-      flash[:danger] = event_type_params.except(:warning_time_used, :passing_time_used).to_s
-    end
-    redirect_to @room
+    render status: 201, json: Room.find(params[:id]).events.create!(event_params).json_data
   end
-
 
   def show
     begin
@@ -100,7 +92,7 @@ class RoomsController < ApplicationController
     begin
       @room = Room.find(params[:id])
       Room.destroy(params[:id])
-      flash[:info] = "Delete room \"#{@room.name}\"."
+      flash[:info] = "Deleted room \"#{@room.name}\"."
     rescue Exception => e
       flash[:danger] = e.message
     end
@@ -118,7 +110,7 @@ class RoomsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:datetime, :event_type)
+    params.require(:event).permit(:datetime, :event_type_id)
   end
 
   def event_type_params
