@@ -38,14 +38,15 @@ ready = ->
         )
         return
       eventRender: (event, element) ->
-        element.prepend('<span event-id="' + event.id + '" class="removeEvent glyphicon glyphicon-trash pull-right"></span>')
+        $($(element).children()[0]).prepend('<span id="delete" class="removeEvent glyphicon glyphicon-trash pull-right"></span>')
         return
       eventClick: (event, jsEvent, view) ->
-        $.post('/events/' + event.id, {'_method': 'DELETE'},
-          (data) ->
-            $('#scheduler').fullCalendar('removeEvents', data['id'])
-            return
-        )
+        if jsEvent.target.id == 'delete'
+          $.post('/events/' + event.id, {'_method': 'DELETE'},
+            (data) ->
+              $('#scheduler').fullCalendar('removeEvents', data['id'])
+              return
+          )
         return
     })
     $('#warning_time_used').change((e) ->
