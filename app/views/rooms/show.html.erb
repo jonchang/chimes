@@ -52,7 +52,7 @@
         <legend>New</legend>
 				<%= form_for @room.conference.event_types.new, url: add_event_type_room_path(@room), validate: true do |f| %>
 					<%= f.text_field :name, placeholder: ' name', style: 'text-align: left; width: 75%' %><br/>
-					<%= f.text_field :length, placeholder: ' length', style: 'text-align: left; width: 75%' %><br/>
+					<%= f.text_field :length, placeholder: ' length (min.)', style: 'text-align: left; width: 75%' %><br/>
 					<%= f.text_field :warning_time, placeholder: ' warning bell', style: 'text-align: left; width: 75%', id: 'warning_time', disabled: true %>
           <%= f.check_box :warning_time_used, id: 'warning_time_used' %><br/>
 					<%= f.text_field :passing_time, placeholder: ' passing bell', style: 'text-align: left; width: 75%', id: 'passing_time', disabled: true %>

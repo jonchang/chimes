@@ -22,6 +22,18 @@ class RoomsController < ApplicationController
   def add_event_type
     @room = Room.find(params[:id])
     begin
+      if event_type_params[:warning_time_used].to_i == 1
+        if event_type_params[:warning_time].nil?
+          flash[:danger] = 'Warning time cannot be blank.'
+          redirect_to @room and return
+        end
+      end
+      if event_type_params[:passing_time_used].to_i == 1
+        if event_type_params[:passing_time].nil?
+          flash[:danger] = 'Passing time cannot be blank.'
+          redirect_to @room and return
+        end
+      end
       @room.conference.event_types.create!(event_type_params.except(:warning_time_used, :passing_time_used))
       flash[:info] = 'Created new event type.'
     rescue Exception => e
