@@ -16,6 +16,9 @@ ready = ->
       allDaySlot: false
       snapDuration: 1
       events: $(location).attr('href') + '/events_json'
+      loading: (isLoading, view) ->
+         if (isLoading)
+           $('#scheduler').fullCalendar('removeEvents')
       lazyFetching: false
       eventOverlap: false
       selectOverlap: false
