@@ -6,7 +6,7 @@
 	<%= stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.1/fullcalendar.min.css' %>
 	<style>
 		.fc-time-grid .fc-slats td {
-	    height: 7em;
+	    height: 6em;
 		}
 	</style>
 <% end %>
@@ -27,7 +27,7 @@
 	<tr>
 	  <td style="width: 20%; vertical-align: top">
 			<legend>Event Types</legend>
-			<p><i>Drag circles onto schedule.</i></p>
+			<p><i>Drag circles onto schedule or click to<br/>add after last event.</i></p>
 			<table>
 				<% @room.conference.event_types.each do |et| %>
 						<tr>

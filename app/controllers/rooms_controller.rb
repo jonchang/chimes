@@ -27,18 +27,14 @@ class RoomsController < ApplicationController
   def add_event_type
     @room = Room.find(params[:id])
     begin
-      puts 'warning_time_used'
-      puts event_type_params[:warning_time_used]
-      puts 'passing_time_used'
-      puts event_type_params[:warning_time_used]
       if event_type_params[:warning_time_used].to_i == 1
-        if event_type_params[:warning_time].nil?
+        if event_type_params[:warning_time].empty?
           flash[:danger] = 'Warning time cannot be blank.'
           redirect_to @room and return
         end
       end
       if event_type_params[:passing_time_used].to_i == 1
-        if event_type_params[:passing_time].nil?
+        if event_type_params[:passing_time].empty?
           flash[:danger] = 'Passing time cannot be blank.'
           redirect_to @room and return
         end

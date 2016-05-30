@@ -2,6 +2,8 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+window.lastEvent = null
+
 ready = ->
   $ ->
     $('#scheduler').fullCalendar({
@@ -14,11 +16,8 @@ ready = ->
           right:  'today prev,next'
         }
       allDaySlot: false
-      snapDuration: 1
+      snapDuration: 20
       events: $(location).attr('href') + '/events_json'
-      loading: (isLoading, view) ->
-         if (isLoading)
-           $('#scheduler').fullCalendar('removeEvents')
       lazyFetching: false
       eventOverlap: false
       selectOverlap: false
@@ -27,16 +26,18 @@ ready = ->
       drop: (date, jsEvent, ui, resourceId) ->
         $.post($(location).attr('href') + '/add_event', {'event[event_type_id]': $(this).attr('event-type'), 'event[datetime]': date.toISOString()},
           (data) ->
-            $('#scheduler').fullCalendar('addEventSource', [data])
+            $('#scheduler').fullCalendar('renderEvent', data)
+            window.lastEvent = data.id
             return
         )
         return
       eventDrop: (event, delta, revertFunc, jsEvent, ui, view) ->
         $.post('/events/' + event.id, {'_method': 'PATCH', 'event[datetime]': event.start.toISOString()},
           (data) ->
-            event.prop('start', data.start)
-            event.prop('end', data.end)
+            event.start = data.start
+            event.end = data.end
             $('#scheduler').fullCalendar('updateEvent', event)
+            window.lastEvent = null
             return
         )
         return
@@ -47,7 +48,8 @@ ready = ->
         if jsEvent.target.id == 'delete'
           $.post('/events/' + event.id, {'_method': 'DELETE'},
             (data) ->
-              $('#scheduler').fullCalendar('removeEvents', data['id'])
+              $('#scheduler').fullCalendar('removeEvents', data.id)
+              window.lastEvent = null
               return
           )
         return
@@ -59,10 +61,19 @@ ready = ->
       $('#passing_time').prop('disabled', !$('#passing_time_used').is(':checked'))
     )
     $("div[id^='et']").draggable({
-        revert: true
-        revertDuration: 0
+      revert: true
+      revertDuration: 0
     })
     $("div[id^='et']").droppable()
+    $("div[id^='et']").click(() ->
+      if (window.lastEvent != null)
+        $.post($(location).attr('href') + '/add_event', {'event[event_type_id]': $(this).attr('event-type'), 'event[datetime]': $($('#scheduler').fullCalendar('clientEvents', window.lastEvent)[0]).attr('end').toISOString()},
+          (data) ->
+            $('#scheduler').fullCalendar('renderEvent', data)
+            window.lastEvent = data.id
+            return
+        )
+    )
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
