@@ -26,9 +26,8 @@ class ConferencesController < ApplicationController
       redirect_to conferences_path and return
     end
     if @conference.user != current_user
-      redirect_to conferences_path
+      redirect_to conferences_path and return
     end
-    # @room = @conference.rooms.new
     @room = Room.new
   end
 

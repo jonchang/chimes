@@ -10,18 +10,27 @@ class RoomsController < ApplicationController
 
   def create
     begin
-      @room = Conference.find(room_params[:conference]).rooms.create!(room_params.except(:conference))
+      conference = Conference.find(room_params[:conference])
+      @room = conference.rooms.create!(room_params.except(:conference))
       flash[:info] = "Created room #{@room.name}."
       redirect_to @room
     rescue Exception => e
       flash[:danger] = e.message
-      redirect_to conferences_path
+      if conference.nil?
+        redirect_to conferences_path
+      else
+        redirect_to conference
+      end
     end
   end
 
   def add_event_type
     @room = Room.find(params[:id])
     begin
+      puts 'warning_time_used'
+      puts event_type_params[:warning_time_used]
+      puts 'passing_time_used'
+      puts event_type_params[:warning_time_used]
       if event_type_params[:warning_time_used].to_i == 1
         if event_type_params[:warning_time].nil?
           flash[:danger] = 'Warning time cannot be blank.'

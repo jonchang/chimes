@@ -4,10 +4,10 @@ class Conference < ActiveRecord::Base
   has_many :event_types
   has_many :rooms
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: { scope: :user }
 
   def get_time_zone
-    ActiveSupport::TimeZone.new(self.time_zone)
+    ActiveSupport::TimeZone.new(time_zone)
   end
 
 end
