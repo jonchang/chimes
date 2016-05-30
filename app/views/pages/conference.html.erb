@@ -1,5 +1,5 @@
-<h1>About</h1>
+<h1>Rooms for <%= @conference.name %></h1>
 
-<p><strong>chimes</strong> is developed and maintained by <%= link_to 'Arman Bilge', 'http://armanbilge.com' %>. Sounds credit to Mike Koenig.</p>
-
-<p><%= link_to 'Please report any issues', '//github.com/armanbilge/chimes/issues/new' %> and feel free to <%= link_to 'fork the source code', '//github.com/armanbilge/chimes' %>. Thank you!</p>
+<% @conference.rooms.each do |r| %>
+  <%= link_to r.name, "/live/r/#{r.id}" %>
+<% end %>

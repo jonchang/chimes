@@ -1,5 +1,41 @@
-<h1>About</h1>
+<% content_for :head do %>
+  <%= javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js' %>
+	<%= javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.1/fullcalendar.min.js' %>
+	<%= stylesheet_link_tag '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.1/fullcalendar.min.css' %>
+	<style>
+		.fc-time-grid .fc-slats td {
+	    height: 6em;
+		}
+	</style>
+  <script type="text/javascript">
+  <% @room.events.each do |e| %>
+    <%= e.datetime.to %>
+  <% end %>
+    self.setInterval(function() {
+        $('#chime')[0].currentTime = 0;
+        $('#chime')[0].play();
+    }, 5000)
+  </script>
+<% end %>
 
-<p><strong>chimes</strong> is developed and maintained by <%= link_to 'Arman Bilge', 'http://armanbilge.com' %>. Sounds credit to Mike Koenig.</p>
+<audio id="start-chime" preload>
+	<source src="/japanese-temple-bell.mp3" type="audio/mpeg"/>
+  <source src="/japanese-temple-bell.ogg" type="audio/ogg"/>
+</audio>
 
-<p><%= link_to 'Please report any issues', '//github.com/armanbilge/chimes/issues/new' %> and feel free to <%= link_to 'fork the source code', '//github.com/armanbilge/chimes' %>. Thank you!</p>
+<audio id="warning-chime" preload>
+	<source src="/japanese-temple-bell.mp3" type="audio/mpeg"/>
+  <source src="/japanese-temple-bell.ogg" type="audio/ogg"/>
+</audio>
+
+<audio id="passing-chime" preload>
+	<source src="/japanese-temple-bell.mp3" type="audio/mpeg"/>
+  <source src="/japanese-temple-bell.ogg" type="audio/ogg"/>
+</audio>
+
+<h1>Schedule for <%= @room.name %></h1>
+
+<div id="schedule">
+	<br/>
+	<center>If scheduler does not appear, try reloading!</center>
+</div>
