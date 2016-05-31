@@ -1,5 +1,9 @@
 <h1>Manage <%= @conference.name %></h1>
 
+<h3><a href="/live/<%= @conference.id %>">Link to Live Chimes</a></h3>
+
+<br>
+
 <div class="well">
 	<legend>Time Zone</legend>
 	<%= form_for @conference, validate: true do |f| %>

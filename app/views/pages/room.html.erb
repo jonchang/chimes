@@ -8,13 +8,10 @@
 		}
 	</style>
   <script type="text/javascript">
-  <% @room.events.each do |e| %>
-    <%= e.datetime.to %>
-  <% end %>
-    self.setInterval(function() {
-        $('#chime')[0].currentTime = 0;
-        $('#chime')[0].play();
-    }, 5000)
+		<% now = Time.now %>
+		<% @room.events.each do |e| %>
+			<%= raw(e.chime_js(now)) %>
+		<% end %>
   </script>
 <% end %>
 
@@ -24,18 +21,20 @@
 </audio>
 
 <audio id="warning-chime" preload>
-	<source src="/japanese-temple-bell.mp3" type="audio/mpeg"/>
-  <source src="/japanese-temple-bell.ogg" type="audio/ogg"/>
+	<source src="/bike-horn.mp3" type="audio/mpeg"/>
+  <source src="/bike-horn.mp3" type="audio/ogg"/>
 </audio>
 
 <audio id="passing-chime" preload>
-	<source src="/japanese-temple-bell.mp3" type="audio/mpeg"/>
-  <source src="/japanese-temple-bell.ogg" type="audio/ogg"/>
+	<source src="/ship-bell.mp3" type="audio/mpeg"/>
+  <source src="/ship-bell.ogg" type="audio/ogg"/>
 </audio>
 
 <h1>Schedule for <%= @room.name %></h1>
 
+Chimes should start sounding automatically!
+
 <div id="schedule">
 	<br/>
-	<center>If scheduler does not appear, try reloading!</center>
+	<center>If schedule does not appear, try reloading!</center>
 </div>

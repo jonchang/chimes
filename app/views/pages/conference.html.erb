@@ -1,5 +1,5 @@
 <h1>Rooms for <%= @conference.name %></h1>
 
 <% @conference.rooms.each do |r| %>
-  <%= link_to r.name, "/live/r/#{r.id}" %>
+  <%= link_to r.name, "/live/r/#{r.id}" %><br/>
 <% end %>
