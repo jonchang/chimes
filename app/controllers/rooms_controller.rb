@@ -66,10 +66,7 @@ class RoomsController < ApplicationController
     begin
       @room = Room.find(params[:id])
     rescue
-      render status: 403
-    end
-    if @room.conference.user != current_user
-      render status: 403
+      render status: 403 and return
     end
     render json: @room.events.map { |e| e.json_data }
   end

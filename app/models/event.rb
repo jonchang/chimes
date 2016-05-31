@@ -48,7 +48,7 @@ class Event < ActiveRecord::Base
   end
 
   def delayed_js(id, delay)
-    "setTimeout(function() { $('##{id}').prop('currentTime', 0); $('##{id}').trigger('play')}, #{delay.in_milliseconds})"
+    "setTimeout(function() { $('##{id}').prop('currentTime', 0); $('##{id}').trigger('play')}, #{delay.in_milliseconds});\n"
   end
 
 end
