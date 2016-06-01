@@ -38,7 +38,7 @@
 			            <br/>warning at <%= et.warning_time %> min.
 			          <% end %>
 			          <% if et.passing_time_used %>
-			            <br/>warning at <%= et.passing_time %> min.
+			            <br/>passing at <%= et.passing_time %> min.
 			          <% end %>
 							</td>
 							<td style="width: 20%">
@@ -53,9 +53,9 @@
 				<%= form_for @room.conference.event_types.new, url: add_event_type_room_path(@room), validate: true do |f| %>
 					<%= f.text_field :name, placeholder: ' name', style: 'text-align: left; width: 75%' %><br/>
 					<%= f.text_field :length, placeholder: ' length (min.)', style: 'text-align: left; width: 75%' %><br/>
-					<%= f.text_field :warning_time, placeholder: ' warning bell', style: 'text-align: left; width: 75%', id: 'warning_time', disabled: true %>
+					<%= f.text_field :warning_time, placeholder: ' warning bell', style: 'text-align: left; width: 75%', id: 'warning_time', disabled: true, title: 'minute at which warning chime sounds', data: { toggle: 'tooltip', placement: 'bottom' } %>
           <%= f.check_box :warning_time_used, id: 'warning_time_used' %><br/>
-					<%= f.text_field :passing_time, placeholder: ' passing bell', style: 'text-align: left; width: 75%', id: 'passing_time', disabled: true %>
+					<%= f.text_field :passing_time, placeholder: ' passing bell', style: 'text-align: left; width: 75%', id: 'passing_time', disabled: true, title: 'minute at which passing chime sounds', data: { toggle: 'tooltip', placement: 'bottom' } %>
           <%= f.check_box :passing_time_used, id: 'passing_time_used' %><br/><br/>
 					<%= f.submit 'Create', class: 'btn btn-primary', style: 'float: right' %>
 				<% end %>
