@@ -19,7 +19,7 @@
 	<legend>Rename</legend>
 	<%= form_for @room, validate: true do |f| %>
 		<%= f.text_field :name, style: 'text-align: left; width: 75%' %>
-		<%= f.submit 'Update', class: 'btn btn-primary', style: 'float: right' %>
+		<%= f.submit 'Rename', class: 'btn btn-primary', style: 'float: right' %>
 	<% end %>
 </div>
 
@@ -28,17 +28,17 @@
 	  <td style="width: 20%; vertical-align: top">
 			<legend>Event Types</legend>
 			<p><i>Drag circles onto schedule or click to<br/>add after last event.</i></p>
-			<table>
+			<table style="table-layout: fixed; width: 100%">
 				<% @room.conference.event_types.each do |et| %>
 						<tr>
 							<td style="width: 80%">
-			          <b><%= et.name %></b><br/>
+			          <b><%= et.name %></b> <%= link_to raw("<span id=\"delete-et[#{et.id}]\" event-type=\"#{et.id}\" class=\"removeEventType glyphicon glyphicon-trash\"></span>"), @room %><br/>
 			          <%= et.length %> minutes
 			          <% if et.warning_time_used %>
 			            <br/>warning at <%= et.warning_time %> min.
 			          <% end %>
 			          <% if et.passing_time_used %>
-			            <br/>passing at <%= et.passing_time %> min.
+			            <br/>ends at <%= et.passing_time %> min.
 			          <% end %>
 							</td>
 							<td style="width: 20%">
@@ -55,7 +55,7 @@
 					<%= f.text_field :length, placeholder: ' length (min.)', style: 'text-align: left; width: 75%' %><br/>
 					<%= f.text_field :warning_time, placeholder: ' warning bell', style: 'text-align: left; width: 75%', id: 'warning_time', disabled: true, title: 'minute at which warning chime sounds', data: { toggle: 'tooltip', placement: 'bottom' } %>
           <%= f.check_box :warning_time_used, id: 'warning_time_used' %><br/>
-					<%= f.text_field :passing_time, placeholder: ' passing bell', style: 'text-align: left; width: 75%', id: 'passing_time', disabled: true, title: 'minute at which passing chime sounds', data: { toggle: 'tooltip', placement: 'bottom' } %>
+					<%= f.text_field :passing_time, placeholder: ' end bell', style: 'text-align: left; width: 75%', id: 'passing_time', disabled: true, title: 'minute at which end chime sounds', data: { toggle: 'tooltip', placement: 'bottom' } %>
           <%= f.check_box :passing_time_used, id: 'passing_time_used' %><br/><br/>
 					<%= f.submit 'Create', class: 'btn btn-primary', style: 'float: right' %>
 				<% end %>

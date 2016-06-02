@@ -1,5 +1,6 @@
 class EventType < ActiveRecord::Base
   belongs_to :conference
+  has_many :events, dependent: :destroy
 
   validates :name, presence: true
   validates :length, presence: true, numericality: { only_integer: true }

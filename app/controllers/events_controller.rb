@@ -8,7 +8,7 @@ class EventsController < ApplicationController
 
   def destroy
     Event.delete(params[:id])
-    render status: 200, json: {'id': params[:id]}
+    render status: 200, json: { id: params[:id] }
   end
 
   private

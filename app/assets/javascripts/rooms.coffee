@@ -74,6 +74,10 @@ ready = ->
             return
         )
     )
+    $("span[id^='delete-et']").click(() ->
+      if (confirm('Are you sure? This will delete all events of this type from all rooms.'))
+        $.post('/event_types/' + $(this).attr('event-type'), {'_method': 'DELETE'})
+    )
     $ -> $('[data-toggle="tooltip"]').tooltip()
 
 $(document).ready(ready)
