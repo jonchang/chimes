@@ -43,7 +43,7 @@ class Event < ActiveRecord::Base
     puts start_time
     js += delayed_js('start-chime', start_time - now) if start_time - now >= 0
     js += delayed_js('warning-chime', warning_time - now) if warning_time and warning_time - now >= 0
-    js += delayed_js('passing-chime', passing_time - now) if warning_time and passing_time - now >= 0
+    js += delayed_js('passing-chime', passing_time - now) if passing_time and passing_time - now >= 0
     js
   end
 
