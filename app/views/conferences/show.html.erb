@@ -18,7 +18,7 @@
 		<td style="width: 2%"/>
 		<% if Manager.find_by(conference: @conference, user: current_user).admin? %>
 			<td style="width: 49%">
-				<div class="well">
+				<div class="well" style="overflow: hidden">
 					<legend>Managers</legend>
 					<%= form_for @conference do |f| %>
 						<%= f.hidden_field :dummy, value: nil %>
