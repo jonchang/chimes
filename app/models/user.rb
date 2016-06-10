@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
 
   validates :provider, :uid, :presence => true
 
-  has_many :conferences
+  has_many :managers
+  has_many :conferences, through: :managers
 
   class << self
     def from_omniauth(auth_hash)

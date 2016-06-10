@@ -10,7 +10,8 @@ class ConferencesController < ApplicationController
 
   def create
     begin
-      @conference = current_user.conferences.create!(conference_params)
+      @conference = Conference.create!(conference_params)
+      Manager.create!(user: current_user, conference: @conference, admin: true)
       flash[:info] = "Created conference #{@conference.name}."
       redirect_to @conference
     rescue Exception => e
@@ -25,7 +26,7 @@ class ConferencesController < ApplicationController
     rescue
       redirect_to conferences_path and return
     end
-    if @conference.user != current_user
+    if not @conference.permitted? current_user
       redirect_to conferences_path and return
     end
     @room = Room.new
@@ -38,12 +39,13 @@ class ConferencesController < ApplicationController
       flash[:danger] = 'Conference does not exist.'
       redirect_to conferences_path and return
     end
-    if @conference.user != current_user
+    if not @conference.permitted? current_user
       flash[:danger] = 'Conference does not exist.'
       redirect_to conferences_path and return
     end
     begin
-      @conference.update!(update_params)
+      @conference.update!(update_params.except(:dummy))
+      Manager.create!(user: current_user, conference: @conference, admin: true)
       flash[:info] = 'Changes saved.'
     rescue Exception => e
       flash[:danger] = e.message
@@ -58,7 +60,7 @@ class ConferencesController < ApplicationController
   end
 
   def update_params
-    params.require(:conference).permit(:time_zone)
+    params.require(:conference).permit(:time_zone, :dummy, user_ids: [])
   end
 
 end

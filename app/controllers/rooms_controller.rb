@@ -57,7 +57,7 @@ class RoomsController < ApplicationController
     rescue
       redirect_to conferences_path and return
     end
-    if @room.conference.user != current_user
+    if not @room.conference.permitted? current_user
       redirect_to conferences_path
     end
   end
@@ -78,7 +78,7 @@ class RoomsController < ApplicationController
       flash[:danger] = 'Room does not exist.'
       redirect_to conferences_path and return
     end
-    if @room.conference.user != current_user
+    if not @room.conference.permitted? current_user
       flash[:danger] = 'Room does not exist.'
       redirect_to conferences_path and return
     end
@@ -130,6 +130,5 @@ class RoomsController < ApplicationController
   def event_type_params
     params.require(:event_type).permit(:name, :length, :warning_time, :passing_time, :warning_time_used, :passing_time_used)
   end
-
 
 end

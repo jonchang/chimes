@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160610035258) do
+ActiveRecord::Schema.define(version: 20160610050211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,12 +22,9 @@ ActiveRecord::Schema.define(version: 20160610035258) do
     t.binary   "start_chime"
     t.binary   "warning_chime"
     t.binary   "passing_chime"
-    t.integer  "user_id"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
   end
-
-  add_index "conferences", ["user_id"], name: "index_conferences_on_user_id", using: :btree
 
   create_table "event_types", force: :cascade do |t|
     t.string   "name"
@@ -80,7 +77,6 @@ ActiveRecord::Schema.define(version: 20160610035258) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "conferences", "users"
   add_foreign_key "event_types", "conferences"
   add_foreign_key "events", "event_types"
   add_foreign_key "events", "rooms"
