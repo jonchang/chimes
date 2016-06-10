@@ -24,7 +24,7 @@
 						<%= f.hidden_field :dummy, value: nil %>
 						<% User.find_each do |u| %>
 							<% if u != current_user %>
-								<%= f.check_box :user_ids, { checked: @conference.users.include?(u), multiple: true }, u.id, nil %> <%= u.name %>
+								<%= f.check_box :user_ids, { checked: @conference.users.include?(u), multiple: true }, u.id, nil %> <%= u.name %><br/>
 							<% end %>
 						<% end %>
 						<%= f.submit 'Update', class: 'btn btn-primary', style: 'float: right' %>
