@@ -5,7 +5,7 @@ class EventType < ActiveRecord::Base
   validates :name, presence: true
   validates :length, presence: true, numericality: { only_integer: true }
   validates :warning_time, numericality: { only_integer: true, less_than: :length }, allow_nil: true
-  validates :passing_time, numericality: { only_integer: true, less_than: :length }, allow_nil: true
+  validates :passing_time, numericality: { only_integer: true, less_than_or_equal_to: :length }, allow_nil: true
 
   def warning_time_used
     !self.warning_time.nil?
