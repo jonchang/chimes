@@ -22,7 +22,7 @@
 					<legend>Managers</legend>
 					<%= form_for @conference do |f| %>
 						<%= f.hidden_field :dummy, value: nil %>
-						<% User.find_each do |u| %>
+						<% User.order(:name).all.each do |u| %>
 							<% if u != current_user %>
 								<%= f.check_box :user_ids, { checked: @conference.users.include?(u), multiple: true }, u.id, nil %> <%= u.name %><br/>
 							<% end %>
