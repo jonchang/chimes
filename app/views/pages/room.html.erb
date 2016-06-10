@@ -8,6 +8,9 @@
 		}
 	</style>
   <script type="text/javascript">
+		$(window).on('beforeunload', function() {
+			return true;
+	  });
 		<% now = Time.now %>
 		<% @room.events.each do |e| %>
 			<%= raw(e.chime_js(now)) -%>
