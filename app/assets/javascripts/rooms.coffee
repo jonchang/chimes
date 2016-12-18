@@ -16,7 +16,7 @@ ready = ->
           right:  'today prev,next'
         }
       allDaySlot: false
-      snapDuration: 20
+      snapDuration: 10000
       events: $(location).attr('href') + '/events_json'
       lazyFetching: false
       eventOverlap: false
