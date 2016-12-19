@@ -20,7 +20,7 @@ class Event < ActiveRecord::Base
   end
 
   def round_datetime
-    self.datetime = datetime&.beginning_of_minute
+    self.datetime = datetime&.+(30.seconds)&.beginning_of_minute
   end
 
   def start_time
