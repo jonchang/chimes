@@ -4,36 +4,36 @@
 
 <br>
 
-<table style="width: 100%">
-	<tr>
-		<td style="width: 49%">
-			<div class="well">
-				<legend>Time Zone</legend>
-				<%= form_for @conference, validate: true do |f| %>
-					<%= f.select :time_zone, ActiveSupport::TimeZone::MAPPING.keys, style: 'text-align: right' %>
-					<%= f.submit 'Update', class: 'btn btn-primary', style: 'float: right' %>
-				<% end %>
-			</div>
-		</td>
-		<td style="width: 2%"/>
-		<% if Manager.find_by(conference: @conference, user: current_user).admin? %>
-			<td style="width: 49%">
-				<div class="well" style="overflow: hidden">
-					<legend>Managers</legend>
-					<%= form_for @conference do |f| %>
-						<%= f.hidden_field :dummy, value: nil %>
-						<% User.order(:name).all.each do |u| %>
-							<% if u != current_user %>
-								<%= f.check_box :user_ids, { checked: @conference.users.include?(u), multiple: true }, u.id, nil %> <%= u.name %><br/>
-							<% end %>
-						<% end %>
-						<%= f.submit 'Update', class: 'btn btn-primary', style: 'float: right' %>
-					<% end %>
-				</div>
-			</td>
-		<% end %>
-	</tr>
-</table>
+<% if Manager.find_by(conference: @conference, user: current_user).admin? %>
+  <table style="width: 100%">
+  	<tr>
+  		<td style="width: 49%">
+  			<div class="well">
+  				<legend>Time Zone</legend>
+  				<%= form_for @conference, validate: true do |f| %>
+  					<%= f.select :time_zone, ActiveSupport::TimeZone::MAPPING.keys, style: 'text-align: right' %>
+  					<%= f.submit 'Update', class: 'btn btn-primary', style: 'float: right' %>
+  				<% end %>
+  			</div>
+  		</td>
+  		<td style="width: 2%"/>
+  		<td style="width: 49%">
+  			<div class="well" style="overflow: hidden">
+  				<legend>Managers</legend>
+  				<%= form_for @conference do |f| %>
+  					<%= f.hidden_field :dummy, value: nil %>
+  					<% User.order(:name).all.each do |u| %>
+  						<% if u != current_user %>
+  							<%= f.check_box :user_ids, { checked: @conference.users.include?(u), multiple: true }, u.id, nil %> <%= u.name %><br/>
+  						<% end %>
+  					<% end %>
+  					<%= f.submit 'Update', class: 'btn btn-primary', style: 'float: right' %>
+  				<% end %>
+  			</div>
+  		</td>
+  	</tr>
+  </table>
+<% end %>
 
 <h2>Rooms</h2>
 <% if @conference.rooms.count > 0 %>

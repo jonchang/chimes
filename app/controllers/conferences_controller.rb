@@ -44,7 +44,8 @@ class ConferencesController < ApplicationController
       redirect_to conferences_path and return
     end
     begin
-      @conference.update!(update_params.except(:dummy))
+      @conference.update!({user_ids: []}.merge(update_params.except(:dummy)))
+      puts update_params.except(:dummy)
       Manager.create!(user: current_user, conference: @conference, admin: true)
       flash[:info] = 'Changes saved.'
     rescue Exception => e
