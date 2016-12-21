@@ -4,17 +4,65 @@
 
 window.lastEvent = null
 
+clone = (wd) ->
+  from = $('#scheduler').fullCalendar('getDate').startOf('week').add(wd, 'days').toISOString()
+  to = $('#scheduler').fullCalendar('getDate').startOf('week').add(wd + 1, 'days').toISOString()
+  $.post($(location).attr('href') + '/clone_day', {'room[from]': from, 'room[to]': to},
+    (data) ->
+      $('#scheduler').fullCalendar('renderEvents', data['add'])
+      $('#scheduler').fullCalendar('removeEvents', data['remove'])
+      window.lastEvent = null
+      return
+  )
+  return
+
 ready = ->
   $ ->
     $('#scheduler').fullCalendar({
       defaultView: 'agendaWeek'
       height: window.innerHeight * 0.9
+      customButtons: {
+        cloneTitle: {
+          text: 'Clone'
+        }
+        cloneSun: {
+          text: 'Sun→Mon'
+          click: -> clone(0)
+        }
+        cloneMon: {
+          text: 'Mon→Tue'
+          click: -> clone(1)
+        }
+        cloneTue: {
+          text: 'Tue→Wed'
+          click: -> clone(2)
+        }
+        cloneWed: {
+          text: 'Wed→Thu'
+          click: -> clone(3)
+        }
+        cloneThu: {
+          text: 'Thu→Fri'
+          click: -> clone(4)
+        }
+        cloneFri: {
+          text: 'Fri→Sat'
+          click: -> clone(5)
+        }
+        cloneSat: {
+          text: 'Sat→Sun'
+          click: -> clone(6)
+        }
+      }
       header:
         {
-          left:   '',
-          center: '',
+          left: ''
+          center: ''
           right:  'today prev,next'
         }
+      footer: {
+        center: 'cloneTitle,cloneSun,cloneMon,cloneTue,cloneWed,cloneThu,cloneFri,cloneSat'
+      }
       allDaySlot: false
       snapDuration: 10000
       events: $(location).attr('href') + '/events_json'
@@ -78,6 +126,8 @@ ready = ->
       if (confirm('Are you sure? This will delete all events of this type from all rooms.'))
         $.post('/event_types/' + $(this).attr('event-type'), {'_method': 'DELETE'})
     )
+    $('.fc-cloneTitle-button').addClass('fc-state-disabled')
+    $('.fc-cloneTitle-button').html('<b>Clone</b>')
     $ -> $('[data-toggle="tooltip"]').tooltip()
 
 $(document).ready(ready)

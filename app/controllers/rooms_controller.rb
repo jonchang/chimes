@@ -51,6 +51,23 @@ class RoomsController < ApplicationController
     render status: 201, json: Room.find(params[:id]).events.create!(event_params).json_data
   end
 
+  def clone_day
+    @room = Room.find(params[:id])
+    from = DateTime.parse(clone_params[:from])
+    to = DateTime.parse(clone_params[:to])
+    delta = to - from
+    @room.transaction do
+      remove = @room.events.where('datetime BETWEEN ? AND ?', to.beginning_of_day, to.end_of_day).destroy_all.map(&:id)
+      @room.events.where('datetime BETWEEN ? AND ?', from.beginning_of_day, from.end_of_day).each do |e|
+        ep = e.amoeba_dup
+        ep.datetime += delta.days
+        ep.save!
+      end
+      add = @room.events.where('datetime BETWEEN ? AND ?', to.beginning_of_day, to.end_of_day).map(&:json_data)
+      render status: 201, json: {remove: remove, add: add}
+    end
+  end
+
   def show
     begin
       @room = Room.find(params[:id])
@@ -121,6 +138,10 @@ class RoomsController < ApplicationController
 
   def update_params
     params.require(:room).permit(:name)
+  end
+
+  def clone_params
+    params.require(:room).permit(:from, :to)
   end
 
   def event_params
