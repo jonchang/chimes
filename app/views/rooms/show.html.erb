@@ -32,14 +32,8 @@
 				<% @room.conference.event_types.each do |et| %>
 						<tr>
 							<td style="width: 80%">
-			          <b><%= et.name %></b> <%= link_to raw("<span id=\"delete-et[#{et.id}]\" event-type=\"#{et.id}\" class=\"removeEventType glyphicon glyphicon-trash\"></span>"), @room %><br/>
+			          <b><%= et.name %></b> <a class="editEventType" data-toggle="popover" data-html="true" data-content='<button id="close" type="button" class="close">&times;</button><iframe frameBorder="0" width="110px" height="100px" src="/event_types/<%= et.id %>"></iframe>'><span class="glyphicon glyphicon-edit"></span></a> <%= link_to raw("<span id=\"delete-et[#{et.id}]\" event-type=\"#{et.id}\" class=\"removeEventType glyphicon glyphicon-trash\"></span>"), @room %><br/>
 			          <%= et.length %> minutes
-			          <% if et.warning_time_used %>
-			            <br/>warning at <%= et.warning_time %> min.
-			          <% end %>
-			          <% if et.passing_time_used %>
-			            <br/>ends at <%= et.passing_time %> min.
-			          <% end %>
 							</td>
 							<td style="width: 20%">
 								<div id="et[<%= et.id %>]" event-type="<%= et.id %>" data-duration="<%= Time.at(et.length * 60).utc.strftime("%H:%M:%S") %>" class="ui-widget-content ui-draggable ui-draggable-handle" style="width: 32px; height: 32px; border-radius: 16px; background: <%= et.color %>; z-index: 100"/>

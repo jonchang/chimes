@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag '//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/simplex/bootstrap.min.css', media: 'all' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body style="background-color:#FFFFFF">
+    <%= form_for @event_type, validate: true do |f| %>
+      <%= f.text_field :warning_time, placeholder: ' warning bell', size: 10, style: 'text-align: left', id: 'warning_time', disabled: !@event_type.warning_time_used, title: 'minute at which warning chime sounds', data: { toggle: 'tooltip', placement: 'bottom' } %>
+      <%= f.check_box :warning_time_used, id: 'warning_time_used' %><br/>
+      <%= f.text_field :passing_time, placeholder: ' end bell', size: 10, style: 'text-align: left', id: 'passing_time', disabled: !@event_type.passing_time_used, title: 'minute at which end chime sounds', data: { toggle: 'tooltip', placement: 'bottom' } %>
+      <%= f.check_box :passing_time_used, id: 'passing_time_used' %><br/><br/>
+      <%= f.submit 'Update', class: 'btn btn-primary btn-sm', style: 'float: left' %>
+    <% end %>
+  </body>
+</html>

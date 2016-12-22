@@ -128,7 +128,11 @@ ready = ->
     )
     $('.fc-cloneTitle-button').addClass('fc-state-disabled')
     $('.fc-cloneTitle-button').html('<b>Clone</b>')
-    $ -> $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip()
+    parent = $('[data-toggle="popover"]').popover().parent()
+    parent.delegate('button#close', 'click', (e) ->
+      $('.popover').popover('hide')
+    )
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
