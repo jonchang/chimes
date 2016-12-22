@@ -64,7 +64,7 @@ ready = ->
         center: 'cloneTitle,cloneSun,cloneMon,cloneTue,cloneWed,cloneThu,cloneFri,cloneSat'
       }
       allDaySlot: false
-      snapDuration: 10000
+      snapDuration: moment.duration(1, 'minutes')
       events: $(location).attr('href') + '/events_json'
       lazyFetching: false
       eventOverlap: false
