@@ -8,7 +8,6 @@
 		}
 	</style>
   <script type="text/javascript">
-    $('#warning-chime').prop('volume', 0.25);
 		$(window).on('beforeunload', function() {
 			return true;
 	  });
@@ -20,13 +19,13 @@
 <% end %>
 
 <audio id="start-chime" preload>
-	<source src="/ship-bell.mp3" type="audio/mpeg"/>
-  <source src="/ship-bell.ogg" type="audio/ogg"/>
+	<source src="/thrush.mp3" type="audio/mpeg"/>
+  <source src="/thrush.ogg" type="audio/ogg"/>
 </audio>
 
 <audio id="warning-chime" preload>
-	<source src="/doorbell.mp3" type="audio/mpeg"/>
-  <source src="/doorbell.ogg" type="audio/ogg"/>
+	<source src="/chickadee.mp3" type="audio/mpeg"/>
+  <source src="/chickadee.ogg" type="audio/ogg"/>
 </audio>
 
 <audio id="passing-chime" preload>
